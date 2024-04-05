@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import psycopg2
+import socket
 from psycopg2 import OperationalError
 
 app = Flask(__name__)
@@ -7,7 +8,9 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     # Render the homepage template
-    return render_template('index.html')
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return render_template('index.html',hostname=hostname, ip_address=ip_address)
 
 @app.route('/postgres', methods=['GET', 'POST'])
 def postgre():

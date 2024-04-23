@@ -1,0 +1,4 @@
+Request received: IP 127.0.0.1, Method GET, URL http://127.0.0.1:8090/
+Response sent: IP 127.0.0.1, Method GET, URL http://127.0.0.1:8090/, Status 200 OK
+Request received: IP 127.0.0.1, Method GET, URL http://127.0.0.1:8090/postgres
+Response sent: IP 127.0.0.1, Method GET, URL http://127.0.0.1:8090/postgres, Status 200 OK

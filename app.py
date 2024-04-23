@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, render_template
 import psycopg2
 import socket
@@ -8,11 +9,18 @@ from logging.handlers import RotatingFileHandler
 app = Flask(__name__)
 
 
-# Set up logging
-handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=3)
+# Ensure the directory for log files exists
+log_directory = "./log"
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
+# Set up logging to a file
+log_file = os.path.join(log_directory, "app.log")
+handler = RotatingFileHandler(log_file, maxBytes=10000, backupCount=3)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
+
 
 @app.before_request
 def log_request_info():
@@ -33,6 +41,7 @@ def log_response_info(response):
     
     logger.info('Response sent: IP %s, Method %s, URL %s, Status %s', ip_address, request.method, request.url, response.status)
     return response
+
 
 
 @app.route('/')
@@ -69,4 +78,4 @@ def test_postgres_connection(hostname, port, dbname, user, password):
         return f'No connect: {e}'
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=8090)
